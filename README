@@ -1,0 +1,70 @@
+Initial starting point for project 2
+//Prolog
+
+Task: find_exit/2 predicate
+    first param: maze (list of lists)
+    second param: list of actions (left, right, up, down)
+    must work with unbound second param (generates solution)
+    fails if maze is bad, actions don't reach exit, or hits wall/boundary
+
+Maze:
+    list of rows, rows are lists
+    f = floor
+    w = wall  
+    s = start (exactly 1)
+    e = exit (at least 1)
+    
+Actions:
+    left = col - 1
+    right = col + 1
+    up = row - 1
+    down = row + 1
+
+Validation:
+    exactly 1 start
+    at least 1 exit
+    all rows same length
+    no going off maze
+    no going through walls
+    must end at exit
+
+Psuedocode:
+
+find_exit(Maze, Actions) :-
+    validate_maze(Maze)
+    find_start(Maze, Row, Col)
+    follow_path(Maze, Row, Col, Actions, FinalRow, FinalCol)
+    check FinalRow FinalCol is exit
+
+validate_maze:
+    not empty
+    rows all same length
+    count starts = 1
+    count exits >= 1
+
+find_start:
+    loop through rows/cols
+    find where cell = s
+    return position
+
+follow_path base case:
+    no more actions
+    return current position
+
+follow_path recursive:
+    take first action
+    calculate new position
+    check valid (in bounds, not wall)
+    recurse with rest of actions
+
+Helpers needed:
+    get_cell - get value at row,col
+    is_valid_move - check bounds and not wall
+    count_cells - count specific cell type
+    move - calculate new position from action
+
+Testing:
+    simple mazes
+    provided example.pl
+    provided test.pl gen_map
+    invalid mazes (no start, multiple starts, etc)
